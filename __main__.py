@@ -43,7 +43,7 @@ keys = {'play': 2, 'prev': 0, 'next': 3, 'stop': 5, 'mode': 4, 'enter': 1}
 
 keystates = [None,None,None,None,None,None]
 
-playerskin = "playerskin.png"
+playerskin = "/home/pi/RPiMusicBox/playerskin.png"
 
 size = width, height = 320, 240
 

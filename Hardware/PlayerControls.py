@@ -8,8 +8,8 @@ import gaugette.rotary_encoder
 import gaugette.switch
 import wiringpi2 as wiringpi
 import threading, time
-import charlieplex.led
-import charlieplex.button
+import CharliePlex.Led
+import CharliePlex.Button
 
 class PlayerControls:
     '''
@@ -22,22 +22,22 @@ class PlayerControls:
         '''
         wiringpi.wiringPiSetup()
         
-        self.button         = charlieplex.button.Button.Worker((pinlayout('KEY_A'), pinlayout('KEY_B'), pinlayout('KEY_C')))
-        self.encoder        = gaugette.rotary_encoder.RotaryEncoder.Worker(pinlayout('ROT_A'), pinlayout('ROT_B'))
+        self.button         = CharliePlex.Button.Button.Worker((pinlayout['KEY_A'], pinlayout['KEY_B'], pinlayout['KEY_C']))
+        self.encoder        = gaugette.rotary_encoder.RotaryEncoder.Worker(pinlayout['ROT_A'], pinlayout['ROT_B'])
         self.encoder.start()
         
         self.keystate       = keystate
         self.keylayout      = keylayout
-        self.toggle         = self.keystate.copy()
-        self.states         = None
+        self.toggle         = self.keylayout.copy()
+        self.states         = self.button.getButtons()
         
         self.rotary         = rotary
         self.rotary_state   = 0
     
     def doKey(self, index):
-        if (self.states[self.keystate[index]] == 1) & (self.toggle[index] == 0):
+        if (self.states[self.keylayout[index]] == 1) & (self.toggle[index] == 0):
             self.toggle[index] = -1
-        if (self.states[self.keystate[index]] == 0) & (self.toggle[index] == -1):
+        if (self.states[self.keylayout[index]] == 0) & (self.toggle[index] == -1):
             self.toggle[index] = 1
     
     def doKeys(self):
@@ -46,13 +46,13 @@ class PlayerControls:
             self.doKey(key[0])
             
     def isPressed(self, index):
-        if (self.states[self.keystate[index]] == 1) & (self.toggle[index] <= 0):
+        if (self.states[self.keylayout[index]] == 1) & (self.toggle[index] <= 0):
             return True
         else:
             return False
         
     def isReleased(self, index):
-        if (self.states[self.keystate[index]] == 0) & (self.toggle[index] > 0):
+        if (self.states[self.keylayout[index]] == 0) & (self.toggle[index] > 0):
             return True
         else:
             return False

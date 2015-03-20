@@ -30,6 +30,7 @@ class Player(object):
     PROGBAR_LEFT = 6
 
     if pygame.font:
+        pygame.font.init()
         FONT_TEXT = pygame.font.SysFont("Droid Sans Mono" , 12)
         FONT_SYM = pygame.font.SysFont("DejaVu Sans Mono" , 36)
         
@@ -52,7 +53,7 @@ class Player(object):
     def drawVolume(self):
         vol = int(self.controls.getRotary() * 2.08)
         volbar_top = self.VOLBAR_BOTTOM - vol
-        pygame.draw.rect(self.screen, self.green, pygame.Rect(self.VOLBAR_LEFT, self.VOLBAR_TOP, self.VOLBAR_WIDTH, vol))
+        pygame.draw.rect(self.screen, self.GREEN, pygame.Rect(self.VOLBAR_LEFT, volbar_top, self.VOLBAR_WIDTH, vol))
         
     def getClientData(self):
         self.status = self.client.status()
@@ -90,7 +91,7 @@ class Player(object):
         self.screen.blit(text_song, (4, 30))
         
     def drawControls(self):       
-        if self.controls.IsPressed('play'):
+        if self.controls.isPressed('play'):
             if self.status['state'] == 'play':
                 self.keysymbols['play'] = self.SYMBOLS['pause'][1]
             else:
@@ -101,22 +102,22 @@ class Player(object):
             else:
                 self.keysymbols['play'] = self.SYMBOLS['play'][0]
                      
-        if self.controls.IsPressed('prev'):
+        if self.controls.isPressed('prev'):
             self.keysymbols['prev'] = self.SYMBOLS['prev'][1]
         if self.controls.isReleased('prev'):
             self.keysymbols['prev'] = self.SYMBOLS['prev'][0]
             
-        if self.controls.IsPressed('next'):
+        if self.controls.isPressed('next'):
             self.keysymbols['next'] = self.SYMBOLS['next'][1]
         if self.controls.isReleased('next'):
             self.keysymbols['next'] = self.SYMBOLS['next'][0]
             
-        if self.controls.IsPressed('stop'):
+        if self.controls.isPressed('stop'):
             self.keysymbols['stop'] = self.SYMBOLS['stop'][1]
         if self.controls.isReleased('stop'):
             self.keysymbols['stop'] = self.SYMBOLS['stop'][0]
             
-        if self.controls.IsPressed('mode'):
+        if self.controls.isPressed('mode'):
             self.keysymbols['mode'] = self.SYMBOLS['mode'][1]
         if self.controls.isReleased('mode'):
             self.keysymbols['mode'] = self.SYMBOLS['mode'][0]
