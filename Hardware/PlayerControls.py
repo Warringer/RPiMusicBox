@@ -29,6 +29,8 @@ class PlayerControls:
         self.keystate       = keystate
         self.keylayout      = keylayout
         self.toggle         = self.keylayout.copy()
+        for key in self.toggle:
+            self.toggle[key] = 0
         self.states         = self.button.getButtons()
         
         self.rotary         = rotary
@@ -42,10 +44,10 @@ class PlayerControls:
     
     def doKeys(self):
         self.states     = self.button.getButtons()
-        for key in self.keystate:
-            self.doKey(key[0])
+        for key in self.keylayout:
+            self.doKey(key)
             
-    def isPressed(self, index):
+    def isPressed(self, index):	
         if (self.states[self.keylayout[index]] == 1) & (self.toggle[index] <= 0):
             return True
         else:
@@ -84,6 +86,7 @@ class PlayerControls:
                     self.rotary_state = 0
                     
     def getRotary(self):
+        self.doRotary()
         return self.rotary
                     
     class Worker(threading.Thread):

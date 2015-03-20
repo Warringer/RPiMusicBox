@@ -60,7 +60,7 @@ class MDPClient(object):
         self.client.stop()
         
     def prev(self):
-        self.client.prev()
+        self.client.previous()
         
     def next(self):
         self.client.next()

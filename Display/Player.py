@@ -144,7 +144,7 @@ class Player(object):
             self.controls.unsetToggle('play')
         
         if self.controls.getToggle('prev') == 1:
-            self.client.previous()
+            self.client.prev()
             self.controls.unsetToggle('prev')
                     
         if self.controls.getToggle('next') == 1:
@@ -160,9 +160,12 @@ class Player(object):
         
         if self.controls.getToggle('enter') == 1:
             self.controls.unsetToggle('enter')
+
+        self.client.setVolume(self.controls.getRotary())
         
     def drawPlayer(self):
         self.getClientData()
+        self.controls.doKeys()
         self.screen.blit(self.background, [0, 0])
         self.drawVolume()
         self.drawProgress()

@@ -54,7 +54,8 @@ screen = pygame.display.set_mode(size)
 
 pygame.mouse.set_visible(False)
 
-controls = Hardware.PlayerControls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
+#controls = Hardware.PlayerControls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
+controls = Hardware.PlayerControls.PlayerControls(pinlayout, keystates, keys, 80)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
