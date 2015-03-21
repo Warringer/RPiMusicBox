@@ -9,7 +9,7 @@ import types
 from socket import error as SocketError
 import wiringpi2 as wiringpi
 import threading
-import Controls.Hardware
+from Controls import *
 import Clients.MPDClient
 import Display.Player
 
@@ -59,10 +59,13 @@ controls = Controls.Hardware.Hardware(pinlayout, keystates, keys, 80)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-player = Display.Hardware.Hardware(screen=screen, controls=controls, client=client, playerskin=playerskin)
+player = Display.Player.Player(screen=screen, controls=controls, client=client, playerskin=playerskin)
+
+playercontrols = Controls.Player.Player(controls, client)
 
 while True:
     player.drawPlayer()
+    playercontrols.doControls()
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
