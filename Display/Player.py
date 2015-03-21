@@ -32,7 +32,8 @@ class Player:
 
     if pygame.font:
         pygame.font.init()
-        FONT_TEXT = pygame.font.SysFont("Droid Sans Mono" , 12)
+        FONT_TEXT = pygame.font.SysFont("Droid Sans Mono" , 20)
+        FONT_SYS = pygame.font.SysFont("Droid Sans Mono", 12)
         FONT_SYM = pygame.font.SysFont("DejaVu Sans Mono" , 36)
         
     SYMBOLS = {'play': [u'\u25b6', u'\u25b7'], 'pause': [u'\u25ae\u25ae', u'\u25af\u25af'], 'prev': [u'\u25c0\u25c0', u'\u25c1\u25c1'], 'next': [u'\u25b6\u25b6', u'\u25b7\u25b7'], 'stop': [u'\u25a0', u'\u25a1'], 'mode': [u'\u2731', u'\u2732']}
@@ -50,7 +51,7 @@ class Player:
         self.client = client
         self.status = None
         self.currentSong = None
-        self.text = {'album': Helper.ScrollText.ScrollText('', 20), 'track': Helper.ScrollText.ScrollText('', 20), 'song': Helper.ScrollText.ScrollText('', 20)}
+        self.text = {'album': Helper.ScrollText.ScrollText('', 24), 'track': Helper.ScrollText.ScrollText('', 24), 'song': Helper.ScrollText.ScrollText('', 24)}
         
     def drawVolume(self):
         vol = int(self.controls.getRotary() * 2.08)
@@ -73,7 +74,7 @@ class Player:
             pygame.draw.rect(self.screen, self.GREEN, pygame.Rect(self.PROGBAR_LEFT, self.PROGBAR_TOP, progress, self.PROGBAR_HEIGHT))
         else:
             timer = "00:00/00:00"
-        text_timer = self.FONT_TEXT.render(timer, 1, self.GREEN)
+        text_timer = self.FONT_SYS.render(timer, 1, self.GREEN)
         self.screen.blit(text_timer, (225, 144))
         
     def drawSongData(self):
@@ -91,12 +92,12 @@ class Player:
         self.text['album'].doTick()
         self.text['track'].doTick()
         self.text['song'].doTick()
-        text_album = self.FONT_TEXT.render(self.text['album'], 1, self.GREEN)
-        text_track = self.FONT_TEXT.render(self.text['track'], 1, self.GREEN)
-        text_song = self.FONT_TEXT.render(self.text['song'], 1, self.GREEN)
-        self.screen.blit(text_album, (8, 10))
-        self.screen.blit(text_track, (8, 24))
-        self.screen.blit(text_song, (8, 38))
+        text_album = self.FONT_TEXT.render(self.text['album'].getScrolledText(), 1, self.GREEN)
+        text_track = self.FONT_TEXT.render(self.text['track'].getScrolledText(), 1, self.GREEN)
+        text_song = self.FONT_TEXT.render(self.text['song'].getScrolledText(), 1, self.GREEN)
+        self.screen.blit(text_album, (10, 10))
+        self.screen.blit(text_track, (10, 32))
+        self.screen.blit(text_song, (10, 54))
         
     def drawControls(self):       
         if self.controls.isPressed('play'):

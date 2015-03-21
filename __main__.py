@@ -59,7 +59,7 @@ controls = Controls.Hardware.Hardware(pinlayout, keystates, keys, 80)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-player = Display.Hardware.Hardware(screen=screen, controls=controls, client=client, playerskin=playerskin)
+player = Display.Player.Player(screen=screen, controls=controls, client=client, playerskin=playerskin)
 
 while True:
     player.drawPlayer()
