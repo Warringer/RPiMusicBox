@@ -11,7 +11,7 @@ import threading, time
 import CharliePlex.Led
 import CharliePlex.Button
 
-class PlayerControls:
+class Hardware:
     '''
     classdocs
     '''
@@ -93,7 +93,7 @@ class PlayerControls:
         def __init__(self, pinlayout, keystate, keylayout, rotary):
             threading.Thread.__init__(self)
             self.lock       = threading.Lock()
-            self.controls   = PlayerControls(pinlayout, keystate, keylayout, rotary)
+            self.controls   = Hardware(pinlayout, keystate, keylayout, rotary)
             self.running    = True
 
         def run(self):

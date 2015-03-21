@@ -9,7 +9,7 @@ import types
 from socket import error as SocketError
 import wiringpi2 as wiringpi
 import threading
-import Hardware.PlayerControls
+import Controls.Hardware
 import Clients.MPDClient
 import Display.Player
 
@@ -54,12 +54,12 @@ screen = pygame.display.set_mode(size)
 
 pygame.mouse.set_visible(False)
 
-#controls = Hardware.PlayerControls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
-controls = Hardware.PlayerControls.PlayerControls(pinlayout, keystates, keys, 80)
+#controls = Controls.Controls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
+controls = Controls.Hardware.Hardware(pinlayout, keystates, keys, 80)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-player = Display.Player.Player(screen=screen, controls=controls, client=client, playerskin=playerskin)
+player = Display.Hardware.Hardware(screen=screen, controls=controls, client=client, playerskin=playerskin)
 
 while True:
     player.drawPlayer()

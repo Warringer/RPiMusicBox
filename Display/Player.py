@@ -5,10 +5,11 @@ Created on Mar 20, 2015
 '''
 
 import sys, pygame, os, time
-import Hardware.PlayerControls
+import Controls.Hardware
 import Clients.MPDClient
+import Helper.ScrollText
 
-class Player(object):
+class Player:
     '''
     classdocs
     '''
@@ -49,6 +50,7 @@ class Player(object):
         self.client = client
         self.status = None
         self.currentSong = None
+        self.text = {'album': Helper.ScrollText.ScrollText('', 20), 'track': Helper.ScrollText.ScrollText('', 20), 'song': Helper.ScrollText.ScrollText('', 20)}
         
     def drawVolume(self):
         vol = int(self.controls.getRotary() * 2.08)
@@ -83,12 +85,18 @@ class Player(object):
             album = ""
             track = ""
             song = "Currently not playing"
-        text_album = self.FONT_TEXT.render(album, 1, self.WHITE)
-        text_track = self.FONT_TEXT.render(track, 1, self.WHITE)
-        text_song = self.FONT_TEXT.render(song, 1, self.WHITE)
-        self.screen.blit(text_album, (4, 4))
-        self.screen.blit(text_track, (4, 18))
-        self.screen.blit(text_song, (4, 30))
+        self.text['album'].setScrolledText(album)
+        self.text['track'].setScrolledText(track)
+        self.text['song'].setScrolledText(song)
+        self.text['album'].doTick()
+        self.text['track'].doTick()
+        self.text['song'].doTick()
+        text_album = self.FONT_TEXT.render(self.text['album'], 1, self.GREEN)
+        text_track = self.FONT_TEXT.render(self.text['track'], 1, self.GREEN)
+        text_song = self.FONT_TEXT.render(self.text['song'], 1, self.GREEN)
+        self.screen.blit(text_album, (8, 10))
+        self.screen.blit(text_track, (8, 24))
+        self.screen.blit(text_song, (8, 38))
         
     def drawControls(self):       
         if self.controls.isPressed('play'):
