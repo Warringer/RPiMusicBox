@@ -10,13 +10,14 @@ import wiringpi2 as wiringpi
 import threading, time
 import CharliePlex.Led
 import CharliePlex.Button
+from Controls.ControlBase import ControlBase
 
-class Hardware:
+class Hardware(ControlBase):
     '''
     classdocs
     '''
 
-    def __init__(self, pinlayout, keystate, keylayout, rotary):
+    def __init__(self, pinlayout, keylayout, rotary):
         '''
         Constructor
         '''
@@ -26,7 +27,6 @@ class Hardware:
         self.encoder        = gaugette.rotary_encoder.RotaryEncoder.Worker(pinlayout['ROT_A'], pinlayout['ROT_B'])
         self.encoder.start()
         
-        self.keystate       = keystate
         self.keylayout      = keylayout
         self.toggle         = self.keylayout.copy()
         for key in self.toggle:
@@ -58,9 +58,6 @@ class Hardware:
             return True
         else:
             return False
-        
-    def getKeystate(self):
-        return self.keystate
     
     def getToggle(self, index):
         return self.toggle[index]
@@ -88,41 +85,3 @@ class Hardware:
     def getRotary(self):
         self.doRotary()
         return self.rotary
-                    
-    class Worker(threading.Thread):
-        def __init__(self, pinlayout, keystate, keylayout, rotary):
-            threading.Thread.__init__(self)
-            self.lock       = threading.Lock()
-            self.controls   = Hardware(pinlayout, keystate, keylayout, rotary)
-            self.running    = True
-
-        def run(self):
-            while self.running:
-                with self.lock:
-                    self.controls.doKeys()
-                    self.controls.doRotary()
-                time.sleep(0.0005)
-
-        def getKeystate(self):
-            with self.lock:
-                return self.controls.getKeystate()
-                
-        def getToggle(self, index):
-            with self.lock:
-                return self.controls.getToggle(index)
-        
-        def isPressed(self, index):
-            with self.lock:
-                return self.controls.isPressed(index)
-        
-        def isReleased(self, index):
-            with self.lock:
-                return self.controls.isReleased(index)
-                
-        def getRotary(self):
-            with self.lock:
-                return self.controls.getRotary()
-            
-        def unsetToggle(self, index):
-            with self.lock:
-                self.controls.unsetToggle(index)

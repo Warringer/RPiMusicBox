@@ -39,7 +39,7 @@ class Player:
     SYMBOLS = {'play': [u'\u25b6', u'\u25b7'], 'pause': [u'\u25ae\u25ae', u'\u25af\u25af'], 'prev': [u'\u25c0\u25c0', u'\u25c1\u25c1'], 'next': [u'\u25b6\u25b6', u'\u25b7\u25b7'], 'stop': [u'\u25a0', u'\u25a1'], 'mode': [u'\u2731', u'\u2732']}
     
 
-    def __init__(self, screen, playerskin, controls, client):
+    def __init__(self, screen, playerskin, player_hardwarecontrols, client):
         '''
         Constructor
         '''
@@ -47,7 +47,7 @@ class Player:
         self.screen = screen
         self.keysymbols = {'play': self.SYMBOLS['play'][0], 'prev': self.SYMBOLS['prev'][0], 'next': self.SYMBOLS['next'][0], 'stop': self.SYMBOLS['stop'][0], 'mode': self.SYMBOLS['mode'][0]}
         self.background = pygame.image.load(playerskin).convert()
-        self.controls = controls
+        self.controls = player_hardwarecontrols
         self.client = client
         self.status = None
         self.currentSong = None
@@ -61,6 +61,9 @@ class Player:
     def getClientData(self):
         self.status = self.client.status()
         self.currentSong = self.client.currentsong()
+        
+    def getPlayerStatus(self):
+        return self.status['state']
         
     def drawProgress(self):
         if self.status['state'] != 'stop':
@@ -140,38 +143,6 @@ class Player:
         self.screen.blit(self.FONT_SYM.render(self.keysymbols['next'], 1, self.GREEN), (193, 181))
         self.screen.blit(self.FONT_SYM.render(self.keysymbols['mode'], 1, self.GREEN), (264, 181))
         
-    def doControl(self):
-        if self.controls.getToggle('play') == 1:
-            if self.status['state'] == 'play':
-                self.client.pause()
-            elif self.status['state'] == 'pause':
-                self.client.pause()
-            elif self.status['state'] == 'stop':
-                self.client.play()
-            else:
-                pass
-            self.controls.unsetToggle('play')
-        
-        if self.controls.getToggle('prev') == 1:
-            self.client.prev()
-            self.controls.unsetToggle('prev')
-                    
-        if self.controls.getToggle('next') == 1:
-            self.client.next()
-            self.controls.unsetToggle('next')
-        
-        if self.controls.getToggle('stop') == 1:
-            self.client.stop()
-            self.controls.unsetToggle('stop')
-        
-        if self.controls.getToggle('mode') == 1:
-            self.controls.unsetToggle('mode')
-        
-        if self.controls.getToggle('enter') == 1:
-            self.controls.unsetToggle('enter')
-
-        self.client.setVolume(self.controls.getRotary())
-        
     def drawPlayer(self):
         self.getClientData()
         self.controls.doKeys()
@@ -180,5 +151,4 @@ class Player:
         self.drawProgress()
         self.drawSongData()
         self.drawControls()
-        self.doControl()
         
