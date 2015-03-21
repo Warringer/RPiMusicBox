@@ -17,7 +17,7 @@ class Hardware(ControlBase):
     classdocs
     '''
 
-    def __init__(self, pinlayout, keystate, keylayout, rotary):
+    def __init__(self, pinlayout, keylayout, rotary):
         '''
         Constructor
         '''
@@ -27,7 +27,6 @@ class Hardware(ControlBase):
         self.encoder        = gaugette.rotary_encoder.RotaryEncoder.Worker(pinlayout['ROT_A'], pinlayout['ROT_B'])
         self.encoder.start()
         
-        self.keystate       = keystate
         self.keylayout      = keylayout
         self.toggle         = self.keylayout.copy()
         for key in self.toggle:
@@ -59,9 +58,6 @@ class Hardware(ControlBase):
             return True
         else:
             return False
-        
-    def getKeystate(self):
-        return self.keystate
     
     def getToggle(self, index):
         return self.toggle[index]

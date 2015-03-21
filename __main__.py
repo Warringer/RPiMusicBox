@@ -41,8 +41,6 @@ pinlayout = {'LED_A': LED_A, 'LED_B' : LED_B, 'KEY_A': KEY_A, 'KEY_B': KEY_B, 'K
 
 keys = {'play': 2, 'prev': 0, 'next': 3, 'stop': 5, 'mode': 4, 'enter': 1}
 
-keystates = [None,None,None,None,None,None]
-
 playerskin = "/home/pi/RPiMusicBox/playerskin.png"
 
 size = width, height = 320, 240
@@ -55,7 +53,7 @@ screen = pygame.display.set_mode(size)
 pygame.mouse.set_visible(False)
 
 #controls = Controls.Controls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
-controls = Controls.Hardware.Hardware(pinlayout, keystates, keys, 80)
+controls = Controls.Hardware.Hardware(pinlayout, keys, 80)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 

@@ -27,6 +27,3 @@ class ControlBase:
     
     def unsetToggle(self, index):
         raise NotImplementedError()
-    
-    def getKeystate(self, index):
-        raise NotImplementedError()
