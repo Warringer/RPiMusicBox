@@ -35,6 +35,9 @@ class Hardware(ControlBase):
         
         self.rotary         = rotary
         self.rotary_state   = 0
+
+    def doControls(self):
+        self.doKeys()
     
     def doKey(self, index):
         if (self.states[self.keylayout[index]] == 1) & (self.toggle[index] == 0):

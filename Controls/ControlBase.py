@@ -30,3 +30,6 @@ class ControlBase:
 
     def getRotary(self):
         raise NotImplementedError()
+
+    def doControl(self):
+        raise NotImplementedError()

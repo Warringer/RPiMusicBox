@@ -9,10 +9,11 @@ import types
 from socket import error as SocketError
 import wiringpi2 as wiringpi
 import threading
-from Controls import *
+import Controls.Player
+import Controls.Hardware
+import Controls.Touchscreen
 import Clients.MPDClient
 import Display.Player
-import Controls
 
 global TEST_MPD_HOST, TEST_MPD_PORT, TEST_MPD_PASSWORD
 
@@ -40,7 +41,7 @@ ROT_B = 24
 
 pinlayout = {'LED_A': LED_A, 'LED_B' : LED_B, 'KEY_A': KEY_A, 'KEY_B': KEY_B, 'KEY_C': KEY_C, 'ROT_A': ROT_A, 'ROT_B': ROT_B}
 
-player_touchbuttons = {'prev': [7, 178, 53, 53], 'play': [67, 178, 53, 53], 'stop': [127, 178, 53, 53], 'next': [187, 178, 53, 53], 'mode': [247, 178, 53, 53]}
+player_touchbuttons = {'prev': [7, 178, 53, 53], 'play': [67, 178, 53, 53], 'stop': [127, 178, 53, 53], 'next': [187, 178, 53, 53], 'mode': [247, 178, 53, 53], 'enter': [0, 0, 0, 0]}
 
 keys = {'play': 2, 'prev': 0, 'next': 3, 'stop': 5, 'mode': 4, 'enter': 1}
 
@@ -61,15 +62,11 @@ player_touchscreen      = Controls.Touchscreen.Touchscreen(player_touchbuttons)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-<<<<<<< HEAD
-player = Display.Player.Player(screen=screen, controls=controls, client=client, playerskin=playerskin)
-=======
 player = Display.Player.Player(screen=screen, controls=player_hardwarebuttons, client=client, playerskin=playerskin)
 
 player_controls = Controls.Player.Player(client)
 player_controls.addControlSceme(player_hardwarebuttons)
 player_controls.addControlSceme(player_touchscreen)
->>>>>>> 11f38c2bacc5134d6c71d282c192f73116d930b3
 
 while True:
     player.drawPlayer()

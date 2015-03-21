@@ -24,12 +24,13 @@ class Player:
     def addControlSceme(self, sceme):
         self.sceme.append(sceme)
         
-    def coControls(self, status):
+    def doControls(self, status):
         self.status = status
         for sceme in self.sceme:
             self.doControl(sceme)
         
     def doControl(self, controls):
+        controls.doControls()
         if controls.getToggle('play') == 1:
             if self.status == 'play':
                 self.client.pause()
