@@ -10,8 +10,9 @@ import wiringpi2 as wiringpi
 import threading, time
 import CharliePlex.Led
 import CharliePlex.Button
+from Controls.ControlBase import ControlBase
 
-class Hardware:
+class Hardware(ControlBase):
     '''
     classdocs
     '''

@@ -5,8 +5,9 @@ Created on Mar 21, 2015
 '''
 
 import pygame, time
+from Controls.ControlBase import ControlBase
 
-class Touchscreen(object):
+class Touchscreen(ControlBase):
     '''
     classdocs
     '''
