@@ -27,3 +27,6 @@ class ControlBase:
     
     def unsetToggle(self, index):
         raise NotImplementedError()
+
+    def getRotary(self):
+        raise NotImplementedError()

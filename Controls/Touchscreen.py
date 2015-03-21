@@ -60,3 +60,6 @@ class Touchscreen(ControlBase):
     
     def unsetToggle(self, index):
         self.toggle[index] = 0
+        
+    def getRotary(self):
+        return None

@@ -13,41 +13,52 @@ class Player:
     '''
 
 
-    def __init__(self, controls, client):
+    def __init__(self, client):
         '''
         Constructor
         '''
-        self.controls   = controls
-        self.client     = client
+        self.sceme  = []
+        self.client = client
+        self.status = None
         
-    def doControls(self):
-        if self.controls.getToggle('play') == 1:
-            if self.status['state'] == 'play':
+    def addControlSceme(self, sceme):
+        self.sceme.append(sceme)
+        
+    def coControls(self, status):
+        self.status = status
+        for sceme in self.sceme:
+            self.doControl(sceme)
+        
+    def doControl(self, controls):
+        if controls.getToggle('play') == 1:
+            if self.status == 'play':
                 self.client.pause()
-            elif self.status['state'] == 'pause':
+            elif self.status == 'pause':
                 self.client.pause()
-            elif self.status['state'] == 'stop':
+            elif self.status == 'stop':
                 self.client.play()
             else:
                 pass
-            self.controls.unsetToggle('play')
+            controls.unsetToggle('play')
         
-        if self.controls.getToggle('prev') == 1:
+        if controls.getToggle('prev') == 1:
             self.client.prev()
-            self.controls.unsetToggle('prev')
+            controls.unsetToggle('prev')
                     
-        if self.controls.getToggle('next') == 1:
+        if controls.getToggle('next') == 1:
             self.client.next()
-            self.controls.unsetToggle('next')
+            controls.unsetToggle('next')
         
-        if self.controls.getToggle('stop') == 1:
+        if controls.getToggle('stop') == 1:
             self.client.stop()
-            self.controls.unsetToggle('stop')
+            controls.unsetToggle('stop')
         
-        if self.controls.getToggle('mode') == 1:
-            self.controls.unsetToggle('mode')
+        if controls.getToggle('mode') == 1:
+            controls.unsetToggle('mode')
         
-        if self.controls.getToggle('enter') == 1:
-            self.controls.unsetToggle('enter')
-
-        self.client.setVolume(self.controls.getRotary())
+        if controls.getToggle('enter') == 1:
+            controls.unsetToggle('enter')
+        
+        rotary = controls.getRotary()
+        if rotary != None:
+            self.client.setVolume(rotary)

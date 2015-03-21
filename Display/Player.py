@@ -38,7 +38,7 @@ class Player:
     SYMBOLS = {'play': [u'\u25b6', u'\u25b7'], 'pause': [u'\u25ae\u25ae', u'\u25af\u25af'], 'prev': [u'\u25c0\u25c0', u'\u25c1\u25c1'], 'next': [u'\u25b6\u25b6', u'\u25b7\u25b7'], 'stop': [u'\u25a0', u'\u25a1'], 'mode': [u'\u2731', u'\u2732']}
     
 
-    def __init__(self, screen, playerskin, controls, client):
+    def __init__(self, screen, playerskin, player_hardwarecontrols, client):
         '''
         Constructor
         '''
@@ -46,7 +46,7 @@ class Player:
         self.screen = screen
         self.keysymbols = {'play': self.SYMBOLS['play'][0], 'prev': self.SYMBOLS['prev'][0], 'next': self.SYMBOLS['next'][0], 'stop': self.SYMBOLS['stop'][0], 'mode': self.SYMBOLS['mode'][0]}
         self.background = pygame.image.load(playerskin).convert()
-        self.controls = controls
+        self.controls = player_hardwarecontrols
         self.client = client
         self.status = None
         self.currentSong = None
@@ -60,6 +60,9 @@ class Player:
     def getClientData(self):
         self.status = self.client.status()
         self.currentSong = self.client.currentsong()
+        
+    def getPlayerStatus(self):
+        return self.status['state']
         
     def drawProgress(self):
         if self.status['state'] != 'stop':

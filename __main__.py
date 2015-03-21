@@ -12,6 +12,7 @@ import threading
 from Controls import *
 import Clients.MPDClient
 import Display.Player
+import Controls
 
 global TEST_MPD_HOST, TEST_MPD_PORT, TEST_MPD_PASSWORD
 
@@ -39,6 +40,8 @@ ROT_B = 24
 
 pinlayout = {'LED_A': LED_A, 'LED_B' : LED_B, 'KEY_A': KEY_A, 'KEY_B': KEY_B, 'KEY_C': KEY_C, 'ROT_A': ROT_A, 'ROT_B': ROT_B}
 
+player_touchbuttons = {'prev': [7, 178, 53, 53], 'play': [67, 178, 53, 53], 'stop': [127, 178, 53, 53], 'next': [187, 178, 53, 53], 'mode': [247, 178, 53, 53]}
+
 keys = {'play': 2, 'prev': 0, 'next': 3, 'stop': 5, 'mode': 4, 'enter': 1}
 
 playerskin = "/home/pi/RPiMusicBox/playerskin.png"
@@ -52,18 +55,21 @@ screen = pygame.display.set_mode(size)
 
 pygame.mouse.set_visible(False)
 
-#controls = Controls.Controls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
-controls = Controls.Hardware.Hardware(pinlayout, keys, 80)
+#player_hardwarecontrols = Controls.Controls.PlayerControls.Worker(pinlayout, keystates, keys, 80)
+player_hardwarebuttons   = Controls.Hardware.Hardware(pinlayout, keys, 70)
+player_touchscreen      = Controls.Touchscreen.Touchscreen(player_touchbuttons)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-player = Display.Player.Player(screen=screen, controls=controls, client=client, playerskin=playerskin)
+player = Display.Player.Player(screen=screen, controls=player_hardwarebuttons, client=client, playerskin=playerskin)
 
-playercontrols = Controls.Player.Player(controls, client)
+player_controls = Controls.Player.Player(client)
+player_controls.addControlSceme(player_hardwarebuttons)
+player_controls.addControlSceme(player_touchscreen)
 
 while True:
     player.drawPlayer()
-    playercontrols.doControls()
+    player_controls.doControls(player.getPlayerStatus())
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
