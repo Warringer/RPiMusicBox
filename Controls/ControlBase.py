@@ -33,3 +33,6 @@ class ControlBase:
 
     def doControl(self):
         raise NotImplementedError()
+    
+    def doKeys(self, index):
+        raise NotImplementedError()

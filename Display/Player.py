@@ -101,8 +101,14 @@ class Player:
         self.screen.blit(text_album, (10, 10))
         self.screen.blit(text_track, (10, 32))
         self.screen.blit(text_song, (10, 54))
-        
-    def drawControls(self):       
+    
+    def doSingleControl(self, symbol):
+        if self.controls.isPressed(symbol):
+            self.keysymbols[symbol] = self.SYMBOLS[symbol][1]
+        if self.controls.isReleased('next'):
+            self.keysymbols[symbol] = self.SYMBOLS[symbol][0]
+       
+    def doControls(self):       
         if self.controls.isPressed('play'):
             if self.status['state'] == 'play':
                 self.keysymbols['play'] = self.SYMBOLS['pause'][1]
@@ -114,26 +120,32 @@ class Player:
             else:
                 self.keysymbols['play'] = self.SYMBOLS['play'][0]
                      
-        if self.controls.isPressed('prev'):
-            self.keysymbols['prev'] = self.SYMBOLS['prev'][1]
-        if self.controls.isReleased('prev'):
-            self.keysymbols['prev'] = self.SYMBOLS['prev'][0]
-            
-        if self.controls.isPressed('next'):
-            self.keysymbols['next'] = self.SYMBOLS['next'][1]
-        if self.controls.isReleased('next'):
-            self.keysymbols['next'] = self.SYMBOLS['next'][0]
-            
-        if self.controls.isPressed('stop'):
-            self.keysymbols['stop'] = self.SYMBOLS['stop'][1]
-        if self.controls.isReleased('stop'):
-            self.keysymbols['stop'] = self.SYMBOLS['stop'][0]
-            
-        if self.controls.isPressed('mode'):
-            self.keysymbols['mode'] = self.SYMBOLS['mode'][1]
-        if self.controls.isReleased('mode'):
-            self.keysymbols['mode'] = self.SYMBOLS['mode'][0]
-            
+        self.doSingleControl('prev')
+        self.doSingleControl('next')
+        self.doSingleControl('stop')
+        self.doSingleControl('mode')
+        
+#        if self.controls.isPressed('prev'):
+#            self.keysymbols['prev'] = self.SYMBOLS['prev'][1]
+#        if self.controls.isReleased('prev'):
+#            self.keysymbols['prev'] = self.SYMBOLS['prev'][0]
+#            
+#        if self.controls.isPressed('next'):
+#            self.keysymbols['next'] = self.SYMBOLS['next'][1]
+#        if self.controls.isReleased('next'):
+#            self.keysymbols['next'] = self.SYMBOLS['next'][0]
+#            
+#        if self.controls.isPressed('stop'):
+#            self.keysymbols['stop'] = self.SYMBOLS['stop'][1]
+#        if self.controls.isReleased('stop'):
+#            self.keysymbols['stop'] = self.SYMBOLS['stop'][0]
+#            
+#        if self.controls.isPressed('mode'):
+#            self.keysymbols['mode'] = self.SYMBOLS['mode'][1]
+#        if self.controls.isReleased('mode'):
+#            self.keysymbols['mode'] = self.SYMBOLS['mode'][0]
+
+    def drawControls(self):            
         self.screen.blit(self.FONT_SYM.render(self.keysymbols['prev'], 1, self.GREEN), (13, 181))
         if self.keysymbols['play'] in self.SYMBOLS['play']:
             self.screen.blit(self.FONT_SYM.render(self.keysymbols['play'], 1, self.GREEN), (84, 181))
@@ -146,6 +158,7 @@ class Player:
     def drawPlayer(self):
         self.getClientData()
 #        self.controls.doKeys()
+        self.doControls()
         self.screen.blit(self.background, [0, 0])
         self.drawVolume()
         self.drawProgress()

@@ -28,7 +28,7 @@ class Touchscreen(ControlBase):
     def doControls(self):
         self.doButtons()
         
-    def doButtons(self):
+    def doKeys(self):
         for event in pygame.event.get():
             if (event.type in [MOUSEBUTTONDOWN, MOUSEBUTTONUP]):
                 pos = pygame.mouse.get_pos()

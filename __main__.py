@@ -62,11 +62,11 @@ player_touchscreen      = Controls.Touchscreen.Touchscreen(player_touchbuttons)
 
 client = Clients.MPDClient.MDPClient(TEST_MPD_HOST, TEST_MPD_PORT)
 
-player = Display.Player.Player(screen=screen, controls=player_hardwarebuttons, client=client, playerskin=playerskin)
-
 player_controls = Controls.Player.Player(client)
 player_controls.addControlSceme(player_hardwarebuttons)
 player_controls.addControlSceme(player_touchscreen)
+
+player = Display.Player.Player(screen=screen, controls=player_controls, client=client, playerskin=playerskin)
 
 while True:
     player.drawPlayer()

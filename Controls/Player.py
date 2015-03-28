@@ -6,8 +6,9 @@ Created on Mar 21, 2015
 
 import Controls.Hardware
 import Clients.MPDClient
+from Controls import ControlBase
 
-class Player:
+class Player(ControlBase):
     '''
     classdocs
     '''
@@ -63,3 +64,35 @@ class Player:
         rotary = controls.getRotary()
         if rotary != None:
             self.client.setVolume(rotary)
+            
+    def isPressed(self, index):
+        status = False
+        for sceme in self.scemes:
+            status = status or sceme.isPressed(index)
+        return status
+        
+    def isRelease(self, index):
+        status = False
+        for sceme in self.scemes:
+            status = status or sceme.isReleased(index)
+        return status
+        
+    def getToggle(self, index):
+        status = False
+        for sceme in self.scemes:
+            status = status or sceme.getToggle(index)
+        return status
+    
+    def unsetToggle(self, index):
+        for sceme in self.scemes:
+            sceme.unsetToggle(index)
+        
+    def getRotary(self):
+        rotary = 0
+        for sceme in self.scemes:
+            rotary = sceme.getRotary()
+        return rotary
+    
+    def doKeys(self, index):
+        for sceme in self.scemes:
+            sceme.dioKeys(index)
