@@ -66,22 +66,22 @@ class Player(ControlBase):
             self.client.setVolume(rotary)
             
     def isPressed(self, index):
-        status = False
         for sceme in self.scemes:
-            status = status or sceme.isPressed(index)
-        return status
+            if sceme.isPressed(index):
+                return True
+        return False
         
     def isRelease(self, index):
-        status = False
         for sceme in self.scemes:
-            status = status or sceme.isReleased(index)
-        return status
+            if sceme.isReleased(index):
+                return True
+        return False
         
     def getToggle(self, index):
-        status = False
         for sceme in self.scemes:
-            status = status or sceme.getToggle(index)
-        return status
+            if sceme.getToggle(index):
+                return True
+        return False
     
     def unsetToggle(self, index):
         for sceme in self.scemes:
